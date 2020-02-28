@@ -13,7 +13,8 @@ fn main() {
 
     let r = (1..n + 1)
         .flat_map(|x| {
-            let sum = x.to_string()
+            let sum = x
+                .to_string()
                 .chars()
                 .fold(0, |acc, i| acc + i.to_digit(10).unwrap());
             if a <= sum && sum <= b {
