@@ -19,8 +19,7 @@ fn main() {
 
     let mut current = (0, 0, 0);
     for route in routes {
-        let diff = (route.1 - current.1, route.2 - current.2);
-        if walk(route.0 - current.0, diff) {
+        if walk(&current, &route) {
             current = route;
         } else {
             println!("No");
@@ -30,8 +29,10 @@ fn main() {
     println!("Yes");
 }
 
-fn walk(t: i32, point: (i32, i32)) -> bool {
-    let total = point.0 + point.1;
+fn walk(start: &(i32, i32, i32), end: &(i32, i32, i32)) -> bool {
+    let diff = (end.0 - start.0, end.1 - start.1, end.2 - start.2);
+    let total = diff.1 + diff.2;
+    let t = diff.0;
     total <= t && even(t) == even(total)
 }
 
