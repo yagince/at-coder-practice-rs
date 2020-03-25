@@ -1,15 +1,22 @@
 use std::collections::{HashMap, HashSet};
+use std::io::prelude::*;
+
+fn input<T>() -> T
+where T: std::str::FromStr {
+    let stdin = std::io::stdin();
+    let token: String = stdin
+        .lock()
+        .bytes()
+        .map(|c| c.unwrap() as char)
+        .skip_while(|c| c.is_whitespace())
+        .take_while(|c| !c.is_whitespace())
+        .collect();
+    token.parse().ok().unwrap()
+}
 
 fn main() {
-    let mut input = String::new();
-    let _ = std::io::stdin().read_line(&mut input).unwrap();
-    let mut input = input
-        .trim()
-        .split_whitespace()
-        .map(|x| x.parse::<usize>().unwrap());
-
-    let n = input.next().unwrap();
-    let m = input.next().unwrap();
+    let n = input::<usize>();
+    let m = input::<usize>();
 
     let mut routes: HashMap<usize, HashMap<usize, usize>> = (0..n)
         .into_iter()
@@ -18,15 +25,9 @@ fn main() {
     let mut unused_routes: HashSet<(usize, usize)> = HashSet::new();
 
     for _ in 0..m {
-        let mut input = String::new();
-        let _ = std::io::stdin().read_line(&mut input).unwrap();
-        let mut input = input
-            .trim()
-            .split_whitespace()
-            .map(|x| x.parse::<usize>().unwrap());
-        let a = input.next().unwrap() - 1;
-        let b = input.next().unwrap() - 1;
-        let cost = input.next().unwrap();
+        let a = input::<usize>() - 1;
+        let b = input::<usize>() - 1;
+        let cost = input::<usize>();
         if let Some(x) = routes.get_mut(&a) {
             x.insert(b, cost);
         }
