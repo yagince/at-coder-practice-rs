@@ -56,8 +56,8 @@ fn main() {
         numbers: [usize; n],
     }
 
-    let mut dp = vec![vec![false; a+1]; n+1];
-    dp[0][0] = true;
+    let mut dp = vec![vec![0; a+1]; n+1];
+    dp[0][0] = 1; // 0個の整数の和は0なので1通り
 
     for i in 0..n {
         let num = numbers[i];
@@ -65,12 +65,10 @@ fn main() {
         for j in 0..(a+1) {
             // numを選択する場合 (i番目までいくつか選んでjにすることができるか)
             // i-1までにj-numにできる組み合わせがある場合はjにすることができる
-            if j >= num && dp[i][j-num] {
-                dp[i+1][j] = true;
-            }
-            // 選択しない場合
-            if dp[i][j] {
-                dp[i+1][j] = true;
+            if j >= num {
+                dp[i+1][j] = dp[i][j-num] + dp[i][j];
+            } else {
+                dp[i+1][j] = dp[i][j];
             }
         }
     }
@@ -79,9 +77,5 @@ fn main() {
         println!("{:?}", x);
     }
 
-    if dp[n][a] {
-        println!("YES");
-    } else {
-        println!("NO");
-    }
+    println!("{}", dp[n][a]);
 }
